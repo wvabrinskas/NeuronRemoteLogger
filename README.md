@@ -1,2 +1,3 @@
 # NeuronWandB
-Weights and Biases support package for Neuron 
+
+A description of this package.
