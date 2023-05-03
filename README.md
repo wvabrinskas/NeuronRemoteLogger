@@ -1,17 +1,12 @@
 # NeuronRemoteLogger
 
-Package that connects the [Neuron](https://github.com/wvabrinskas/Neuron) package to various remote loggers using Python. 
+Package that connects the [Neuron](https://github.com/wvabrinskas/Neuron) package to various remote loggers.
 
-## Note
-This package only supports `macOS`
 
 ## Supported Loggers
-| Loggers       
-| ------------- 
-| [Weights and Biases](https://wandb.ai/home)
-
-## Required Python packages
-`wandb`
+| Loggers       | OS Support | External reqs |
+| ------------- | ---------- | ------------- |
+| [Weights and Biases](https://wandb.ai/home) | macOS | `python 3`, `wandb` package |
 
 ## Protocol 
 You can implement your own Remote logger by conforming to the below protocol.
