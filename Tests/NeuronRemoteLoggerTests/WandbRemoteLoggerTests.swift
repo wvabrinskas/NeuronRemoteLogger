@@ -1,10 +1,20 @@
 import XCTest
 @testable import NeuronRemoteLogger
 
-@available(macOS 12.3, *)
+extension XCTestCase {
+  var isGithubCI: Bool {
+    if let value = ProcessInfo.processInfo.environment["CI"] {
+      return value == "true"
+    }
+    return false
+  }
+}
+
 final class WandbRemoteLoggerTests: XCTestCase {
   
-  func test_wandbLogin() {
+  func test_wandbInit() {
+    // the github CLI definitely doesn't have wandb installed
+    guard isGithubCI == false else { return }
     
     let epochs = 10
     let lr = 0.01
@@ -16,7 +26,7 @@ final class WandbRemoteLoggerTests: XCTestCase {
       XCTFail()
       return
     }
-    
+      
     do {
       try wandb.setup()
     } catch {
@@ -27,10 +37,9 @@ final class WandbRemoteLoggerTests: XCTestCase {
     
     for epoch in 0..<epochs {
       let e = Double(epoch)
-      let acc = pow(1 - 2, -e -  Double.random(in: 0...1) / e - offset)
+      let acc = 1 - pow(2, -e - Double.random(in: 0...1) / e - offset)
       let loss = pow(2, -e + Double.random(in: 0...1) / e + offset)
       let payload = ["accuracy": acc.pythonObject, "loss": loss.pythonObject]
-      
       do {
         try wandb.log(payload: payload)
       } catch {

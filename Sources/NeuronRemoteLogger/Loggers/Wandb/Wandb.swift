@@ -9,7 +9,6 @@ import Foundation
 import Logger
 import PythonKit
 
-@available(macOS 12.3, *)
 public class Wandb: RemoteLogger, Logger {
   public typealias LogPayload = [String: PythonObject]
   public typealias InitPayload = InitializePayload
@@ -36,9 +35,27 @@ public class Wandb: RemoteLogger, Logger {
       return config.pythonObject
     }
     
-    var projectName: String
-    var jobType: String = "train"
+    var projectName: String?
+    var jobType: String?
     var config: [String: PythonObject]
+    var entity: String?
+    var reinit: Bool?
+    var tags: [String]?
+    var group: String?
+    var name: String?
+    var notes: String?
+    var configExcludeKeys: [String]?
+    var configIncludeKeys: [String]?
+    var anonymous: String?
+    var mode: String?
+    var allowValChange: Bool?
+    var resume: String?
+    var force: Bool?
+    var tensorboard: Bool?
+    var syncTensorboard: Bool?
+    var monitorGym: Bool?
+    var saveCode: Bool?
+    var id: String?
   }
   
   public var logLevel: LogLevel = .high
@@ -73,7 +90,25 @@ public class Wandb: RemoteLogger, Logger {
     let object = initalizePayload.pythonObject
     initObject = wandb.`init`(config: object,
                               project: initalizePayload.projectName,
-                              job_type: initalizePayload.jobType)
+                              job_type: initalizePayload.jobType,
+                              entity: initalizePayload.entity,
+                              reinit: initalizePayload.reinit,
+                              tags: initalizePayload.tags,
+                              group: initalizePayload.group,
+                              name: initalizePayload.name,
+                              notes: initalizePayload.notes,
+                              config_exclude_keys: initalizePayload.configExcludeKeys,
+                              config_include_keys: initalizePayload.configIncludeKeys,
+                              anonymous: initalizePayload.anonymous,
+                              mode: initalizePayload.mode,
+                              allow_val_change: initalizePayload.allowValChange,
+                              resume: initalizePayload.resume,
+                              force: initalizePayload.force,
+                              tensorboard: initalizePayload.tensorboard,
+                              sync_tensorboard: initalizePayload.syncTensorboard,
+                              monitor_gym: initalizePayload.monitorGym,
+                              save_code: initalizePayload.saveCode,
+                              id: initalizePayload.id)
   }
   
   public func log(payload: [String : PythonObject]) throws {
@@ -88,18 +123,4 @@ public class Wandb: RemoteLogger, Logger {
   
   // MARK: Private
 
-}
-
-@available(macOS 12.3, *)
-extension Encodable {
-  func asDictionary<K: Hashable, V>() -> Dictionary<K,V>? {
-    do {
-      let data = try JSONEncoder().encode(self)
-      let jsonData = try JSONSerialization.jsonObject(with: data)
-      return jsonData as? Dictionary<K,V>
-    } catch {
-      print(error.localizedDescription)
-      return nil
-    }
-  }
 }

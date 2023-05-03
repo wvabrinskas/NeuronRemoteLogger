@@ -9,6 +9,7 @@ public protocol RemoteLogger {
   associatedtype InitPayload
   
   var type: Remote { get }
+  
   init?(payload: InitPayload)
   func setup() throws
   func log(payload: LogPayload) throws
