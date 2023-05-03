@@ -56,6 +56,50 @@ public class Wandb: RemoteLogger, Logger {
     var monitorGym: Bool?
     var saveCode: Bool?
     var id: String?
+    
+    public init(projectName: String? = nil,
+                jobType: String? = nil,
+                config: [String : PythonObject],
+                entity: String? = nil,
+                reinit: Bool? = nil,
+                tags: [String]? = nil,
+                group: String? = nil,
+                name: String? = nil,
+                notes: String? = nil,
+                configExcludeKeys: [String]? = nil,
+                configIncludeKeys: [String]? = nil,
+                anonymous: String? = nil,
+                mode: String? = nil,
+                allowValChange: Bool? = nil,
+                resume: String? = nil,
+                force: Bool? = nil,
+                tensorboard: Bool? = nil,
+                syncTensorboard: Bool? = nil,
+                monitorGym: Bool? = nil,
+                saveCode: Bool? = nil,
+                id: String? = nil) {
+      self.projectName = projectName
+      self.jobType = jobType
+      self.config = config
+      self.entity = entity
+      self.reinit = reinit
+      self.tags = tags
+      self.group = group
+      self.name = name
+      self.notes = notes
+      self.configExcludeKeys = configExcludeKeys
+      self.configIncludeKeys = configIncludeKeys
+      self.anonymous = anonymous
+      self.mode = mode
+      self.allowValChange = allowValChange
+      self.resume = resume
+      self.force = force
+      self.tensorboard = tensorboard
+      self.syncTensorboard = syncTensorboard
+      self.monitorGym = monitorGym
+      self.saveCode = saveCode
+      self.id = id
+    }
   }
   
   public var logLevel: LogLevel = .high
