@@ -68,7 +68,11 @@ for epoch in 0..<epochs {
   let e = Double(epoch)
   let acc = 1 - pow(2, -e - Double.random(in: 0...1) / e - offset)
   let loss = pow(2, -e + Double.random(in: 0...1) / e + offset)
+  
+  // this payload can contain any arbitrary tracking data as long as it's convertable to a PythonObject
+  // This is specific to wandb. Other loggers will define their own payload.
   let payload = ["accuracy": acc.pythonObject, "loss": loss.pythonObject]
+  
   do {
     try wandb.log(payload: payload)
   } catch {
