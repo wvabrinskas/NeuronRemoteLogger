@@ -165,6 +165,14 @@ public class Wandb: RemoteLogger, Logger {
         message: "Logging event for wandb. Payload: \(payload)")
   }
   
+  public func buildImage(data: [[[Float]]], name: String) -> PythonObject? {
+    guard let wandb else { return nil }
+    
+    let image = wandb.Image(data, caption: name)
+    
+    return image
+  }
+  
   // MARK: Private
 
 }
