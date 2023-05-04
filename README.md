@@ -6,7 +6,7 @@ Package that connects the [Neuron](https://github.com/wvabrinskas/Neuron) packag
 ## Supported Loggers
 | Loggers       | OS Support | External reqs |
 | ------------- | ---------- | ------------- |
-| [Weights and Biases](https://wandb.ai/home) | macOS | `python 3`, `wandb` package, `numpy` package |
+| [Weights and Biases](https://wandb.ai/home) | macOS | `python 3`, `wandb` package, `numpy` package, `pillow` package |
 
 ## Protocol 
 You can implement your own Remote logger by conforming to the below protocol.
@@ -32,7 +32,7 @@ public protocol RemoteLogger {
 
 Initialize the logger of your choice. Below is the `Wandb` example
 
-*Note: Wandb requires you call `wandb login` in the CLI before running. The initializer will throw an error here if that has not been done*
+*Note: On first run, if you havnt signed into your Wandb account using `wandb login` in the CLI, the LLDB will ask you for your login API key through the debugger. Follow the instructions*
 ```
 
 let epochs = 10
