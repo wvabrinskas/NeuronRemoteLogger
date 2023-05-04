@@ -180,7 +180,7 @@ public class Wandb: RemoteLogger, Logger {
     
     let pythonTuple = PythonObject(tupleOf: columns, rows, depth)
     let reshaped = np.reshape(npArray, pythonTuple)
-    let image = wandb.Image(npArray, caption: name)
+    let image = wandb.Image(reshaped, caption: name)
     
     return image
   }
