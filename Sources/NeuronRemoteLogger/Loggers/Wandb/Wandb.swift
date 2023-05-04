@@ -171,15 +171,10 @@ public class Wandb: RemoteLogger, Logger {
   public func buildImage(data: [[[Float]]], name: String) -> PythonObject? {
     guard let wandb, let np else { return nil }
     
-    let shape = data.shape
-    let columns = shape[safe: 0, 0]
-    let rows = shape[safe: 1, 0]
-    let depth = shape[safe: 2, 0]
-    
     let npArray = np.array(data)
     
-    let pythonTuple = PythonObject(tupleOf: columns, rows, depth)
-    let reshaped = np.reshape(npArray, pythonTuple)
+    let pythonTuple = PythonObject(tupleOf: 1, 2, 0)
+    let reshaped = np.transpose(npArray, pythonTuple)
     let image = wandb.Image(reshaped, caption: name)
     
     return image
