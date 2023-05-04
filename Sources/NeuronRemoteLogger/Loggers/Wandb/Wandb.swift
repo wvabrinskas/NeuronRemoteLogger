@@ -106,6 +106,7 @@ public class Wandb: RemoteLogger, Logger {
   public var type: Remote = .wandb
   
   private var wandb: PythonObject?
+  private var np: PythonObject?
   private let initalizePayload: InitializePayload
   private var initObject: PythonObject?
   
@@ -114,6 +115,7 @@ public class Wandb: RemoteLogger, Logger {
     
     do {
       wandb = try Python.attemptImport("wandb")
+      np = try Python.attemptImport("numpy")
     } catch {
       self.log(type: .error, message: "Please run `pip install wandb` on the host computer. - \(error.localizedDescription)")
       return nil
@@ -166,9 +168,10 @@ public class Wandb: RemoteLogger, Logger {
   }
   
   public func buildImage(data: [[[Float]]], name: String) -> PythonObject? {
-    guard let wandb else { return nil }
+    guard let wandb, let np else { return nil }
     
-    let image = wandb.Image(data, caption: name)
+    let npArray = np.array(data)
+    let image = wandb.Image(npArray, caption: name)
     
     return image
   }
