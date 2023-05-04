@@ -8,6 +8,7 @@
 import Foundation
 import Logger
 import PythonKit
+import NumSwift
 
 public class Wandb: RemoteLogger, Logger {
   public typealias LogPayload = [String: PythonObject]
@@ -170,7 +171,15 @@ public class Wandb: RemoteLogger, Logger {
   public func buildImage(data: [[[Float]]], name: String) -> PythonObject? {
     guard let wandb, let np else { return nil }
     
+    let shape = data.shape
+    let columns = shape[safe: 0, 0]
+    let rows = shape[safe: 1, 0]
+    let depth = shape[safe: 2, 0]
+    
     let npArray = np.array(data)
+    
+    let pythonTuple = PythonObject(tupleOf: columns, rows, depth)
+    let reshaped = np.reshape(npArray, pythonTuple)
     let image = wandb.Image(npArray, caption: name)
     
     return image
