@@ -81,6 +81,15 @@ for epoch in 0..<epochs {
 }
 
 ```
+
+Some of the loggers might support image data upload. For example `Wandb` has a function for building a compatable image object from a 3D array from a `Tensor` 
+
+`func buildImage(data: [[[Float]]], name: String) -> PythonObject?`
+
+You can then log this in the payload by just adding it as a key:
+ 
+`payload["examples"] = buildImage(data: imageData, name: "Generator Image")`
+
 For `Wandb` login to your dashboard to see the results
 
-<img width="700" src="images/charts.png"> 
+<img width="700" src="images/charts-2.png"> 
