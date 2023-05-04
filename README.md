@@ -25,6 +25,7 @@ public protocol RemoteLogger {
   init?(payload: InitPayload)
   func setup() throws
   func log(payload: LogPayload) throws
+  func stop()
 }
 ```
 
