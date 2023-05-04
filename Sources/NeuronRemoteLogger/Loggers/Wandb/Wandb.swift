@@ -185,6 +185,12 @@ public class Wandb: RemoteLogger, Logger {
     return image
   }
   
+  public func stop() {
+    guard let wandb else { return }
+    
+    wandb.finish()
+  }
+  
   // MARK: Private
 
 }
