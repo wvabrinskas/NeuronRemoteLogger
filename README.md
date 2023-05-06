@@ -2,7 +2,7 @@
 
 ![](https://img.shields.io/github/license/wvabrinskas/NeuronRemoteLogger?style=flat-square)
 ![](https://img.shields.io/badge/swift-5.5-orange?style=flat-square)
-![](https://img.shields.io/badge/macOS-12.3+-darkcyan?style=flat-square)
+![](https://img.shields.io/badge/macOS-11+-darkcyan?style=flat-square)
 
 Package that connects the [Neuron](https://github.com/wvabrinskas/Neuron) package to various remote loggers.
 
