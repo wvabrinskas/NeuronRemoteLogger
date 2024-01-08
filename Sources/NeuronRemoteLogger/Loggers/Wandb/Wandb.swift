@@ -180,6 +180,19 @@ public class Wandb: RemoteLogger, Logger {
     return image
   }
   
+  public func buildTable(columns: String..., values: PythonObject...) -> PythonObject? {
+    guard let wandb, columns.isEmpty == false else { return nil }
+    
+    let table = wandb.Table(columns: columns.pythonObject)
+    return table
+  }
+  
+  public func runCommand(_ block: (_ wandb: PythonObject) -> PythonObject?) -> PythonObject? {
+    guard let wandb else { return nil }
+    
+    return block(wandb)
+  }
+  
   public func stop() {
     guard let wandb else { return }
     

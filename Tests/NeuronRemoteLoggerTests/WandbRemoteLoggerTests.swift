@@ -12,6 +12,25 @@ extension XCTestCase {
 
 final class WandbRemoteLoggerTests: XCTestCase {
   
+  func test_buildTable() {
+    // the github CLI definitely doesn't have wandb installed
+    guard isGithubCI == false else { return }
+    
+    let epochs = 10
+    let lr = 0.01
+    
+    let payload = Wandb.InitializePayload(projectName: "NeuronTest",
+                                          config: ["learning_rate": lr.pythonObject,
+                                                   "epochs": epochs.pythonObject])
+    guard let wandb = Wandb(payload: payload) else {
+      XCTFail()
+      return
+    }
+    
+    let table = wandb.buildTable(columns: "column1", "column2", "column3")
+    XCTAssertNotNil(table)
+  }
+  
   func test_wandbInit() {
     // the github CLI definitely doesn't have wandb installed
     guard isGithubCI == false else { return }
