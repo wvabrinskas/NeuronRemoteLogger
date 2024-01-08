@@ -27,7 +27,8 @@ final class WandbRemoteLoggerTests: XCTestCase {
       return
     }
     
-    let table = wandb.buildTable(columns: "column1", "column2", "column3")
+    let table = wandb.buildTable(columns: "column1", "column2", "column3",
+                                 values: ["3" ,"4", "5"])
     XCTAssertNotNil(table)
   }
   

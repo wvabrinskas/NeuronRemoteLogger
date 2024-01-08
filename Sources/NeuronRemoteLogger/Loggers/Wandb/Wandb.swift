@@ -183,7 +183,8 @@ public class Wandb: RemoteLogger, Logger {
   public func buildTable(columns: String..., values: PythonObject...) -> PythonObject? {
     guard let wandb, columns.isEmpty == false else { return nil }
     
-    let table = wandb.Table(columns: columns.pythonObject)
+    let table = wandb.Table(data: values,
+                            columns: columns)
     return table
   }
   
