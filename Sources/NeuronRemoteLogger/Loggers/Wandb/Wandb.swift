@@ -11,6 +11,50 @@ import PythonKit
 import NumSwift
 
 public class Wandb: RemoteLogger, Logger {
+  public enum AlertLevel: String, Encodable, PythonConvertible {
+    public var pythonObject: PythonKit.PythonObject {
+      name.pythonObject
+    }
+    
+    case info, warn, error
+    
+    var name: String {
+      rawValue.uppercased()
+    }
+  }
+  
+  public struct Alert: Encodable, PythonConvertible {
+    public var pythonObject: PythonKit.PythonObject {
+      var object = ["title": title.pythonObject,
+                    "text": text.pythonObject]
+      
+      if let level {
+        object["level"] = level.pythonObject
+      }
+      
+      if let waitDurationSeconds {
+        object["wait_duration"] = waitDurationSeconds.pythonObject
+      }
+      
+      return object.pythonObject
+    }
+    
+    let title: String
+    let text: String
+    let level: AlertLevel?
+    let waitDurationSeconds: Int?
+    
+    public init(title: String,
+                text: String,
+                level: AlertLevel? = nil,
+                waitDurationSeconds: Int? = nil) {
+      self.title = title
+      self.text = text
+      self.level = level
+      self.waitDurationSeconds = waitDurationSeconds
+    }
+  }
+  
   public typealias LogPayload = [String: PythonObject]
   public typealias InitPayload = InitializePayload
 
@@ -156,6 +200,11 @@ public class Wandb: RemoteLogger, Logger {
                               monitor_gym: initalizePayload.monitorGym,
                               save_code: initalizePayload.saveCode,
                               id: initalizePayload.id)
+  }
+  
+  public func alert(_ alert: Alert) {
+    guard let wandb else { return }
+    wandb.alert(alert.pythonObject)
   }
   
   public func log(payload: [String : PythonObject]) throws {

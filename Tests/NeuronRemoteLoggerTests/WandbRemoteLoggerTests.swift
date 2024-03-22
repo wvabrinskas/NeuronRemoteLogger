@@ -12,6 +12,25 @@ extension XCTestCase {
 
 final class WandbRemoteLoggerTests: XCTestCase {
   
+  func test_alert() {
+    guard isGithubCI == false else { return }
+    
+    let epochs = 10
+    let lr = 0.01
+    
+    let payload = Wandb.InitializePayload(projectName: "NeuronTest",
+                                          config: ["learning_rate": lr.pythonObject,
+                                                   "epochs": epochs.pythonObject])
+    guard let wandb = Wandb(payload: payload) else {
+      XCTFail()
+      return
+    }
+    
+    let alert = Wandb.Alert(title: "Test", text: "text")
+    
+    wandb.alert(alert)
+  }
+  
   func test_buildTable() {
     // the github CLI definitely doesn't have wandb installed
     guard isGithubCI == false else { return }
