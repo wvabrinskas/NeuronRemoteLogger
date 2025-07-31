@@ -1,4 +1,4 @@
-// swift-tools-version: 5.5
+// swift-tools-version: 5.10
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -15,7 +15,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-      .package(url: "https://github.com/pvieito/PythonKit.git", from: "0.3.1"),
+      .package(url: "https://github.com/pvieito/PythonKit.git", from: "0.5.1"),
       .package(url: "https://github.com/wvabrinskas/Logger.git", from: "1.0.6"),
       .package(url: "https://github.com/wvabrinskas/NumSwift.git", from: "2.0.1")
 

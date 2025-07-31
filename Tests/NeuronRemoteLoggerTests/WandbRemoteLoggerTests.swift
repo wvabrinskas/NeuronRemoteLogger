@@ -58,10 +58,13 @@ final class WandbRemoteLoggerTests: XCTestCase {
     let epochs = 10
     let lr = 0.01
     
+    let envPayload = Wandb.EnvPayload(sitePackages: "/Users/williamvabrinskas/Documents/python/environments/global/lib/python3.13/site-packages")
+    
     let payload = Wandb.InitializePayload(projectName: "NeuronTest",
-                                          config: ["learning_rate": lr.pythonObject,
-                                                   "epochs": epochs.pythonObject])
-    guard let wandb = Wandb(payload: payload) else {
+                                          config: ["learning_rate": lr,
+                                                   "epochs": epochs])
+    guard let wandb = Wandb(payload: payload,
+                            env: envPayload) else {
       XCTFail()
       return
     }
@@ -85,6 +88,8 @@ final class WandbRemoteLoggerTests: XCTestCase {
         XCTFail(error.localizedDescription)
       }
     }
+
+    wandb.stop()
     
   }
 }

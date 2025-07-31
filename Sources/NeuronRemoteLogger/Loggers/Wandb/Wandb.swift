@@ -75,14 +75,22 @@ public class Wandb: RemoteLogger, Logger {
     }
   }
   
+  public struct EnvironmentPayload {
+    let sitePackages: String
+    
+    init(sitePackages: String) {
+      self.sitePackages = sitePackages
+    }
+  }
+  
   public struct InitializePayload: PythonConvertible {
     public var pythonObject: PythonKit.PythonObject {
-      return config.pythonObject
+      config.mapValues { $0.pythonObject }.pythonObject
     }
     
     var projectName: String?
     var jobType: String?
-    var config: [String: PythonObject]
+    var config: [String: PythonConvertible]
     var entity: String?
     var reinit: Bool?
     var tags: [String]?
@@ -104,7 +112,7 @@ public class Wandb: RemoteLogger, Logger {
     
     public init(projectName: String? = nil,
                 jobType: String? = nil,
-                config: [String : PythonObject],
+                config: [String : PythonConvertible],
                 entity: String? = nil,
                 reinit: Bool? = nil,
                 tags: [String]? = nil,
@@ -155,14 +163,28 @@ public class Wandb: RemoteLogger, Logger {
   private let initalizePayload: InitializePayload
   private var initObject: PythonObject?
   
-  required public init?(payload: InitializePayload) {
+  required public init?(payload: InitializePayload,
+                        env: EnvironmentPayload? = nil) {
     self.initalizePayload = payload
+  
+    if let env {
+      let os = Python.import("os")
+      let sys = Python.import("sys")
+      sys.path.append(os.path.abspath(env.sitePackages))
+    }
     
     do {
       wandb = try Python.attemptImport("wandb")
-      np = try Python.attemptImport("numpy")
     } catch {
       self.log(type: .error, message: "Please run `pip install wandb` on the host computer. - \(error.localizedDescription)")
+      return nil
+    }
+    
+    
+    do {
+      np = try Python.attemptImport("numpy")
+    } catch {
+      self.log(type: .error, message: "Please run `pip install numpy` on the host computer. - \(error.localizedDescription)")
       return nil
     }
   }
