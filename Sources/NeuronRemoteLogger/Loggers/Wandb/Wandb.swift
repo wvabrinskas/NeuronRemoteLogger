@@ -76,9 +76,9 @@ public class Wandb: RemoteLogger, Logger {
   }
   
   public struct EnvironmentPayload {
-    let sitePackages: String
+    public let sitePackages: String
     
-    init(sitePackages: String) {
+    public init(sitePackages: String) {
       self.sitePackages = sitePackages
     }
   }
